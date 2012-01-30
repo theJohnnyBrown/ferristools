@@ -4,19 +4,19 @@ is a collection of small command-line tools for manipulating FASTA files, develo
 ## create_mapping.py
 
 ### USAGE:
-> python create_mapping.py -m MappingFile.txt -o NewMapping.txt
+    python create_mapping.py -m MappingFile.txt -o NewMapping.txt
 
 ### suggested workflow:
 - run this script as shown above
 - run check_id_map.py:
-    macqiime check_id_map.py -m NewMapping.txt -o checkmap -j run_prefix
+        macqiime check_id_map.py -m NewMapping.txt -o checkmap -j run_prefix
  
 - check log of check_id_map.py for relevant errors:
-    grep -v "Removed bad chars" checkmap/NewMapping.log
+        grep -v "Removed bad chars" checkmap/NewMapping.log
  
 - take subsets of .fna and .qual as necessary to render them isomorphic
 - run split_libraries.py:
-    macqiime split_libraries.py -e 0 -m checkmap/NewMapping_corrected.txt -f MySeqs.fna -q MyQual.qual -o splib-out -j run_prefix -b 8
+        macqiime split_libraries.py -e 0 -m checkmap/NewMapping_corrected.txt -f MySeqs.fna -q MyQual.qual -o splib-out -j run_prefix -b 8
 
 create_mapping adds a 'run_prefix' column to the mapping file, allowing qiime's split_libraries.py to demultiplex reads by an already determined sample name as well as the barcode. This is useful in situations where the sequencing facility has already labeled the reads by sample
 
@@ -24,25 +24,25 @@ create_mapping adds a 'run_prefix' column to the mapping file, allowing qiime's 
 ## fasta.py :
 
 ### USAGE:
->python fasta.py keyfile.txt fastafile.fna [--liberal | -l]
+    python fasta.py keyfile.txt fastafile.fna [--liberal | -l]
 
 Runs QA steps to remove primers, barcodes, homopolymers and chimeras from the data.
 
 ### ARGS:
-        - keyfile.txt: the "keyfile" or mapping file.
-        - fastafile.fna: the file to be preprocessed        
-        - --liberal or -l: see odd cases below
+- keyfile.txt: the "keyfile" or mapping file.
+- fastafile.fna: the file to be preprocessed        
+- --liberal or -l: see odd cases below. If this flag is not provided, the default is 'conservative' mode.
 ### Odd cases:
-    - sequence id not in keyfile: throw out sequence, warn
-    - sequence does not start with barcode: ignore 
-    - sequence does not match primer (maybe primer was already stripped):
-        - conservative mode - throw out 
-        - liberal mode - ignore (whole operation is idempotent in liberal mode)
+- sequence id not in keyfile: throw out sequence, warn
+- sequence does not start with barcode: ignore 
+- sequence does not match primer (maybe primer was already stripped):
+    - conservative mode - throw out 
+    - liberal mode - ignore (whole operation is idempotent in liberal mode)
 
 ## seq_subset.py :
 
 ### USAGE: 
->python seq_subset.py <fastafile> namestems
+    python seq_subset.py <fastafile> namestems
 Where namestems is a list in quotes, with entries separated by commas, e.g.
     "JN031811-1, JN031811-2, Jn031811-3"
 
