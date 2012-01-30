@@ -9,14 +9,14 @@ is a collection of small command-line tools for manipulating FASTA files, develo
 ### suggested workflow:
 - run this script as shown above
 - run check_id_map.py:
-> macqiime check_id_map.py -m NewMapping.txt -o checkmap -j run_prefix
+    macqiime check_id_map.py -m NewMapping.txt -o checkmap -j run_prefix
  
 - check log of check_id_map.py for relevant errors:
-> grep -v "Removed bad chars" checkmap/NewMapping.log
+    grep -v "Removed bad chars" checkmap/NewMapping.log
  
 - take subsets of .fna and .qual as necessary to render them isomorphic
 - run split_libraries.py:
-> macqiime split_libraries.py -e 0 -m checkmap/NewMapping_corrected.txt -f MySeqs.fna -q MyQual.qual -o splib-out -j run_prefix -b 8
+    macqiime split_libraries.py -e 0 -m checkmap/NewMapping_corrected.txt -f MySeqs.fna -q MyQual.qual -o splib-out -j run_prefix -b 8
 
 create_mapping adds a 'run_prefix' column to the mapping file, allowing qiime's split_libraries.py to demultiplex reads by an already determined sample name as well as the barcode. This is useful in situations where the sequencing facility has already labeled the reads by sample
 
@@ -27,30 +27,31 @@ create_mapping adds a 'run_prefix' column to the mapping file, allowing qiime's 
 >python fasta.py keyfile.txt fastafile.fna [--liberal | -l]
 
 Runs QA steps to remove primers, barcodes, homopolymers and chimeras from the data.
-    ARGS:
-        + keyfile.txt: the "keyfile" or mapping file.
-        + fastafile.fna: the file to be preprocessed        
-        + --liberal or -l: see odd cases below
-    Odd cases:
-    sequence id not in keyfile: throw out sequence, warn
-    sequence does not start with barcode: ignore 
-    sequence does not match primer (maybe primer was already stripped):
-        conservative mode - throw out 
-        liberal mode - ignore (whole operation is idempotent in liberal mode)
+
+### ARGS:
+        - keyfile.txt: the "keyfile" or mapping file.
+        - fastafile.fna: the file to be preprocessed        
+        - --liberal or -l: see odd cases below
+### Odd cases:
+    - sequence id not in keyfile: throw out sequence, warn
+    - sequence does not start with barcode: ignore 
+    - sequence does not match primer (maybe primer was already stripped):
+        - conservative mode - throw out 
+        - liberal mode - ignore (whole operation is idempotent in liberal mode)
 
 ## seq_subset.py :
 
 ### USAGE: 
 >python seq_subset.py <fastafile> namestems
 Where namestems is a list in quotes, with entries separated by commas, e.g.
-> "JN031811-1, JN031811-2, Jn031811-3"
+    "JN031811-1, JN031811-2, Jn031811-3"
 
-    --or--
+--or--
 
-> %s <fastafile> -f stemsfile
-    Where stemsfile is a the path to a file containing one list entry per line
+    %s <fastafile> -f stemsfile
+Where stemsfile is a the path to a file containing one list entry per line
 
-    any sequences in the fasta file whose names begin with one of the entries in the list will be printed
+any sequences in the fasta file whose names begin with one of the entries in the list will be printed
 
 ## fnaview.py :
 
@@ -58,10 +59,10 @@ Where namestems is a list in quotes, with entries separated by commas, e.g.
 >python fnaview.py fastafile.fna
 
 All sample IDs in fastafile will be printed once each. to count the number of samples in a file, use like so:
-> python fnaview.py fastafile.fna | wc -l
+    python fnaview.py fastafile.fna | wc -l
 
 To check whether two files, (or a fasta and a qual file) have the same sample names in them, do this:
-> python fnaview.py fastafile.fna | sort > f1.fna
-> python fnaview.py other_fastafile.fna | sort > f2.fna
-> diff f1.fna f2.fna
+    python fnaview.py fastafile.fna | sort > f1.fna
+    python fnaview.py other_fastafile.fna | sort > f2.fna
+    diff f1.fna f2.fna
 if the diff command produces no output, the two files contain the same set of samples.
