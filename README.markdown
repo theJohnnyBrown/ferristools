@@ -48,7 +48,7 @@ Where namestems is a list in quotes, with entries separated by commas, e.g.
 
 --or--
 
-    %s <fastafile> -f stemsfile
+    python seq_subset.py <fastafile> -f stemsfile
 Where stemsfile is a the path to a file containing one list entry per line
 
 any sequences in the fasta file whose names begin with one of the entries in the list will be printed
@@ -56,9 +56,9 @@ any sequences in the fasta file whose names begin with one of the entries in the
 ## fnaview.py :
 
 ### USAGE:
->python fnaview.py fastafile.fna
+    python fnaview.py fastafile.fna
 
-All sample IDs in fastafile will be printed once each. to count the number of samples in a file, use like so:
+All sample IDs in fastafile will be printed once each. to count the number of samples in a file, use like so:  
     python fnaview.py fastafile.fna | wc -l
 
 To check whether two files, (or a fasta and a qual file) have the same sample names in them, do this:
