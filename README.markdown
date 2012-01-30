@@ -59,10 +59,13 @@ any sequences in the fasta file whose names begin with one of the entries in the
     python fnaview.py fastafile.fna
 
 All sample IDs in fastafile will be printed once each. to count the number of samples in a file, use like so:  
+
     python fnaview.py fastafile.fna | wc -l
 
 To check whether two files, (or a fasta and a qual file) have the same sample names in them, do this:
+
     python fnaview.py fastafile.fna | sort > f1.fna
     python fnaview.py other_fastafile.fna | sort > f2.fna
     diff f1.fna f2.fna
+
 if the diff command produces no output, the two files contain the same set of samples.
