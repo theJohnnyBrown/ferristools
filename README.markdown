@@ -86,4 +86,5 @@ file, as if there is one mismatch there will likely be many.
 The script prints no output if it finds no mismatched sequences.
 
 To see the number of mismatches, use the script like so:
+
     python checkseqs.py seqs.fna > mismatches.fna
