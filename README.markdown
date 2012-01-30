@@ -9,13 +9,16 @@ is a collection of small command-line tools for manipulating FASTA files, develo
 ### suggested workflow:
 - run this script as shown above
 - run check_id_map.py:
+
         macqiime check_id_map.py -m NewMapping.txt -o checkmap -j run_prefix
  
 - check log of check_id_map.py for relevant errors:
+
         grep -v "Removed bad chars" checkmap/NewMapping.log
  
 - take subsets of .fna and .qual as necessary to render them isomorphic
 - run split_libraries.py:
+
         macqiime split_libraries.py -e 0 -m checkmap/NewMapping_corrected.txt -f MySeqs.fna -q MyQual.qual -o splib-out -j run_prefix -b 8
 
 create_mapping adds a 'run_prefix' column to the mapping file, allowing qiime's split_libraries.py to demultiplex reads by an already determined sample name as well as the barcode. This is useful in situations where the sequencing facility has already labeled the reads by sample
